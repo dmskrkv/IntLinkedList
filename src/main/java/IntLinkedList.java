@@ -46,6 +46,8 @@ public class IntLinkedList {
             throw new IllegalArgumentException();
         } else if (pos == 0) {
             addFirstElement(data);
+        } else if (pos == size) {
+            addLastElement(data);
         } else {
             Element elementAtPos = first;
             for (int i = 1; i < size; i++) {
