@@ -15,7 +15,8 @@ public class IntLinkedList {
     public void addLastElement(int data) {
         Element newElement = new Element(data);
         if (first == null) {
-            first = last = newElement;
+            first = newElement;
+            last = newElement;
         } else {
             last.setNext(newElement);
             newElement.setPrev(last);
@@ -40,13 +41,14 @@ public class IntLinkedList {
 
     public void insertAtPos(int data, int pos) {
         Element newElement = new Element(data);
-        if (pos == 1) {
-            addFirstElement(data);
-        } else if (pos > size) {
+        //if (pos == 1) { ---- индексирование было с 1, т.к. предполагалось, что это user friendly, более естественно, что если элемент всего одни, то он первый
+        if (pos > size) {
             throw new IllegalArgumentException();
+        } else if (pos == 0) {
+            addFirstElement(data);
         } else {
             Element elementAtPos = first;
-            for (int i = 2; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
                 if (i == pos) {
                     Element tmp = elementAtPos.getNext();
                     elementAtPos.setNext(newElement);
@@ -62,7 +64,9 @@ public class IntLinkedList {
     }
 
     public void deleteAtPos(int pos) {
-        if (pos == 1) {
+        if (pos >= size) {
+            throw new IllegalArgumentException();
+        } else if (pos == 0) {
             if (size == 1) {
                 first = null;
                 last = null;
@@ -72,15 +76,13 @@ public class IntLinkedList {
                 first.setPrev(null);
                 size--;
             }
-        } else if (pos == size) {
+        } else if (pos == size-1) {
             last = last.getPrev();
             last.setNext(null);
             size--;
-        } else if (pos > size) {
-            throw new IllegalArgumentException();
         } else {
             Element elementAtPos = first.getNext();
-            for (int i = 2; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
                 if (i == pos) {
                     Element p = elementAtPos.getPrev();
                     Element n = elementAtPos.getNext();
@@ -95,15 +97,15 @@ public class IntLinkedList {
     }
 
     public int getElement(int pos) {
-        if (pos == 1) {
-            return first.getData();
-        } else if (pos == size) {
-            return last.getData();
-        } else if (pos > size) {
+        if (pos >= size) {
             throw new IllegalArgumentException();
+        } else if (pos == 0) {
+            return first.getData();
+        } else if (pos == size-1) {
+            return last.getData();
         } else {
             Element elementAtPos = first.getNext();
-            for (int i = 2; i <= size; i++) {
+            for (int i = 1; i < size; i++) {
                 if (i == pos) {
                     break;
                 } else {
